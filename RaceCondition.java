@@ -17,6 +17,7 @@ public class RaceCondition{
       System.out.println("Thread: " + j + " has the value:" + lw.getValue());
     }
 
+    // This join will ensure that whatever we do after...its done when all threads are done
     try{
       for(int k=0; k<threads.length; k++){
           threads[k].join();
@@ -30,6 +31,7 @@ public class RaceCondition{
 }
 
  class LongWrapper{
+  private Object key = new Object();
   private long l;
 
   public LongWrapper (long l){
@@ -41,6 +43,8 @@ public class RaceCondition{
   }
 
   public void incrementValue(){
-    l++;
+    synchronized(key){
+      l++;
+    }
   }
 }

@@ -8,12 +8,19 @@ public class RaceCondition{
       }
     };
 
-    Thread t = new Thread(r);
-
-    t.start();
+    //Thread t = new Thread(r);
+    // Create an Array of 1000 Threads that will add the same value... We should get 1_000_000
+    Thread threads[] = new Thread[1000];
+    for(int j=0; j<threads.length; j++){
+      threads[j] = new Thread(r);
+      threads[j].start();
+      System.out.println("Thread: " + j + " has the value:" + lw.getValue());
+    }
 
     try{
-      t.join();
+      for(int k=0; k<threads.length; k++){
+          threads[k].join();
+      }
     } catch (InterruptedException e){
       System.out.println(e.toString());
     }

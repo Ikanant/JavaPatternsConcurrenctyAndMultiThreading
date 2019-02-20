@@ -1,18 +1,23 @@
 public class ProducerConsumer {
+    private static Object lock = new Object();
     private static int[] buffer;
     private static int count;
 
     static class Producer {
         void produce() {
-            while (isFull(buffer)) {}
-            buffer[count++] = 1;
+            synchronized (lock) {
+                while (isFull(buffer)) {}
+                buffer[count++] = 1;
+            }
         }
     }
 
     static class Consumer {
         void consume() {
-            while (isEmpty(buffer)) {}
-            buffer[--count] = 0;
+            synchronized(lock){
+                while (isEmpty(buffer)) {}
+                buffer[--count] = 0;
+            }
         }
     }
 
